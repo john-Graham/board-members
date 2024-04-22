@@ -1,0 +1,25 @@
+{
+    "name": "acf/board-member",
+    "title": "Board member",
+    "description": "Display board members",
+    "style": [ "file:./board-member.css" ],
+    "category": "custom",
+    "icon": "networking",
+    "keywords": ["callout", "banner", "large"],
+    "acf": {
+        "mode": "auto",
+        "renderTemplate": "board-member.php"
+    },
+    "supports": {
+        "align": false,
+        "anchor": true,
+        "mode": false,
+        "color": {
+            "text": false,
+            "background": false
+        }
+    }
+}
+
+
+
