@@ -1,6 +1,6 @@
 <?php
 /**
- * ACF create a custom taxonomy.   Moved here after being created as .json file.
+ * ACF create a custom taxonomy.   Can be saved here as php, or managed as .json file.
  *
  * @link https://www.advancedcustomfields.com/resources/local-json/
  */

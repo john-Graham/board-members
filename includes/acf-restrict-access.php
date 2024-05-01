@@ -3,6 +3,8 @@
  * Limit capabilities of editing ACF fields,
  * post types, taxonomies and more in WP Admin.
  */
+namespace UWBoardMembers;
+// samples below are not using namespace
 
 /**
  * @link https://www.advancedcustomfields.com/resources/how-to-hide-acf-menu-from-clients/
