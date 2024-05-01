@@ -1,24 +1,24 @@
 <?php
 /**
- * Plugin Name:      Board Members
- * Description:       Wordpress plugin for CPT Board members at UW Madison engineering.
+ * Plugin Name:      UW Board Members
+ * Description:       Wordpress plugin for CPT Board members.
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Version:           0.1
  * Author:            John Graham
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       coe-boards
+ * Text Domain:       uw-board-members
  *
- * @package           coe-boards
+ * @package           UW_Board_Members
  */
+namespace UWBoardMembers;
 
 // Define our handy constants.
-define( 'COE_BOARDS_VERSION', '0.1' );
-define( 'COE_BOARDS_PLUGIN_DIR', __DIR__ );
-define( 'COE_BOARDS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'COE_BOARDS_PLUGIN_BLOCKS', COE_BOARDS_PLUGIN_DIR . '/blocks/' );
-
+define('UW_BOARD_MEMBERS_VERSION', '0.1');
+define('UW_BOARD_MEMBERS_PLUGIN_DIR', __DIR__);
+define('UW_BOARD_MEMBERS_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('UW_BOARD_MEMBERS_PLUGIN_BLOCKS', UW_BOARD_MEMBERS_PLUGIN_DIR . '/blocks/');
 
 
 // Set custom load & save JSON points for ACF sync.
@@ -35,27 +35,32 @@ require 'includes/template-tags.php';
 require 'includes/acf-taxonomies.php';
 
 // // Register our custom post type.
-require 'includes/field-groups/board-member.php';
+require 'includes/post-types/board-member.php';
 
 
+class UWBoardMemberUtils
+{
 
-// forcing the post title to be the last name, first name
-function save_boards_post_type( $post_id ) {
-    $post_type = get_post_type( $post_id );
-    if ( $post_type == 'board-member' ) {
-        $last_name = get_field( 'last_name', $post_id );
-        $first_name = get_field( 'first_name', $post_id );
+    // forcing the post title to be the last name, first name
+    // May  want to make this a setting in the future
+    public function save_boards_post_type($post_id)
+    {
+        $post_type = get_post_type($post_id);
+        if ($post_type == 'board-member') {
+            $last_name = get_field('last_name', $post_id);
+            $first_name = get_field('first_name', $post_id);
 
-        $post_title = $last_name . ', ' . $first_name;
-        $post_name = sanitize_title( $post_title );
+            $post_title = $last_name . ', ' . $first_name;
+            $post_name = sanitize_title($post_title);
 
-        $post = array(
-            'ID' => $post_id,
-            'post_title' => $post_title,
-            'post_name' => $post_name
-        );
-        wp_update_post( $post );
+            $post = array(
+                'ID' => $post_id,
+                'post_title' => $post_title,
+                'post_name' => $post_name
+            );
+            wp_update_post($post);
+        }
     }
 }
-add_action( 'acf/save_post', 'save_boards_post_type', 20 );
 
+add_action('acf/save_post', [new UWBoardMemberUtils(), 'save_boards_post_type'], 20);
