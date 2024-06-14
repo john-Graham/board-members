@@ -261,6 +261,7 @@
                     },
                     "choices": {
                         "linkedin": "LinkedIn",
+                        "x": "X"
                     },
                     "default_value": "linkedin",
                     "return_format": "value",

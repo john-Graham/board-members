@@ -55,7 +55,10 @@ $display_type = get_field('display_type') ? get_field('display_type') : "title";
 if (!empty($display_type)) :
     $classes[] = 'acf-board-members-' . $display_type;
 endif;
-// block configuration settings
+
+$theme = wp_get_theme(); // Retrieves the current theme object
+$theme_directory_name = $theme->get_stylesheet(); // Gets the directory name of the theme
+
 ?>
 <div <?php echo $anchor; ?>class="<?php echo esc_attr(implode(' ', $classes)); ?>" <?php if ($styles) : ?> style="<?php echo esc_attr(implode(';', $styles)); ?>" <?php endif; ?>>
     <?php if ($container_classes) : ?><div class="<?php echo esc_attr(implode(' ', $container_classes)); ?>"><?php endif; ?>
@@ -81,8 +84,6 @@ endif;
                     );
                 }
             }
-            $theme = wp_get_theme(); // Retrieves the current theme object
-            $theme_directory_name = $theme->get_stylesheet(); // Gets the directory name of the theme
 
             $wp_query = new WP_Query($args);
             if ($wp_query->have_posts()) :
@@ -110,16 +111,16 @@ endif;
                 global $post;
                 //echo "Number of posts: $total_posts";
                 // needed to create wrapper for accordion of titles
+                if ($theme_directory_name == 'coe') {
+                    echo $theme_directory_name == 'coe' ? '<div class="row">' : '';
+                }
                 foreach ($selected_posts as $post) :
                     // Setup this post for WP functions (variable must be named $post).
                     setup_postdata($post);
 
-
                     if ($theme_directory_name == 'coe') {
-                        echo '<div class="row row-cols-6 pt-3">';
                         // Directly include the specific template
                         include(plugin_dir_path(__FILE__) . 'themes/coe-template.php');
-                        echo '</div>';
                     } elseif ($theme_directory_name == 'uw-theme') {
                         // Directly include the specific template
                         include(plugin_dir_path(__FILE__) . 'themes/uw-template.php');
@@ -128,6 +129,9 @@ endif;
                         include(plugin_dir_path(__FILE__) . 'themes/default-template.php');
                     }
                 endforeach;
+                if ($theme_directory_name == 'coe') {
+                    echo $theme_directory_name == 'coe' ? '</div>' : '';
+                }
                 wp_reset_postdata();
             else :  ?>
                 No profiles found.
