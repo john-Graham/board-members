@@ -166,7 +166,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/board-slider"
+                "value": "acf\/board-member"
             }
         ]
     ],

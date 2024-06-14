@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_6536df6d2c5f6",
-            "label": "Name & title",
+            "label": "Name & titles",
             "name": "",
             "aria-label": "",
             "type": "accordion",
@@ -261,8 +261,6 @@
                     },
                     "choices": {
                         "linkedin": "LinkedIn",
-                        "x": "X",
-                        "facebook": "Facebook"
                     },
                     "default_value": "linkedin",
                     "return_format": "value",
@@ -337,5 +335,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 1,
-    "modified": 1712775338
+    "modified": 1718130962
 }

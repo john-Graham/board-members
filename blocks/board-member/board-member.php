@@ -52,13 +52,14 @@ $filter_taxonomy_board = get_field('filter_taxonomy_board');
 $selected_posts = get_field('posts');
 $mode = get_field('mode') ? get_field('mode') : "manual";
 $display_type = get_field('display_type') ? get_field('display_type') : "title";
+if (!empty($display_type)) :
+    $classes[] = 'acf-board-members-' . $display_type;
+endif;
 // block configuration settings
-
 ?>
 <div <?php echo $anchor; ?>class="<?php echo esc_attr(implode(' ', $classes)); ?>" <?php if ($styles) : ?> style="<?php echo esc_attr(implode(';', $styles)); ?>" <?php endif; ?>>
     <?php if ($container_classes) : ?><div class="<?php echo esc_attr(implode(' ', $container_classes)); ?>"><?php endif; ?>
         <?php if ($mode == 'query') :
-            //echo ('mode is query');
 
             $args = array(
                 'post_type'              => 'board-member',
@@ -80,18 +81,28 @@ $display_type = get_field('display_type') ? get_field('display_type') : "title";
                     );
                 }
             }
+            $theme = wp_get_theme(); // Retrieves the current theme object
+            $theme_directory_name = $theme->get_stylesheet(); // Gets the directory name of the theme
 
             $wp_query = new WP_Query($args);
             if ($wp_query->have_posts()) :
-                $total_posts = $wp_query->found_posts;
-                // echo "Number of posts: $total_posts";
+                echo $theme_directory_name == 'coe' ? '<div class="row">' : '';
 
                 while ($wp_query->have_posts()) : $wp_query->the_post();
-                    include(plugin_dir_path(__FILE__) . 'content-board.php');
+                    if ($theme_directory_name == 'coe') {
+                        include(plugin_dir_path(__FILE__) . 'themes/coe-template.php');
+                    } elseif ($theme_directory_name == 'uw-theme') {
+                        include(plugin_dir_path(__FILE__) . 'themes/uw-template.php');
+                    } else {
+                        include(plugin_dir_path(__FILE__) . 'themes/default-template.php');
+                    }
                 endwhile;
+                echo $theme_directory_name == 'coe' ? '</div>' : '';
+
             else :
-                echo ('No profiles found');
+                echo 'No profiles found';
             endif;
+
             wp_reset_postdata();
             wp_reset_query();
         elseif ($mode == 'manual') :
@@ -102,7 +113,20 @@ $display_type = get_field('display_type') ? get_field('display_type') : "title";
                 foreach ($selected_posts as $post) :
                     // Setup this post for WP functions (variable must be named $post).
                     setup_postdata($post);
-                // print_r($post);
+
+
+                    if ($theme_directory_name == 'coe') {
+                        echo '<div class="row row-cols-6 pt-3">';
+                        // Directly include the specific template
+                        include(plugin_dir_path(__FILE__) . 'themes/coe-template.php');
+                        echo '</div>';
+                    } elseif ($theme_directory_name == 'uw-theme') {
+                        // Directly include the specific template
+                        include(plugin_dir_path(__FILE__) . 'themes/uw-template.php');
+                    } else {
+                        // Include the default template
+                        include(plugin_dir_path(__FILE__) . 'themes/default-template.php');
+                    }
                 endforeach;
                 wp_reset_postdata();
             else :  ?>

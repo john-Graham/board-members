@@ -1,6 +1,6 @@
 {
     "name": "acf/board-member",
-    "title": "Board member",
+    "title": "Board member display",
     "description": "Display board members",
     "style": [ "file:./board-member.css" ],
     "category": "custom",

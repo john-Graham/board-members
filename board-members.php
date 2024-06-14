@@ -35,7 +35,7 @@ require 'includes/template-tags.php';
 require 'includes/acf-taxonomies.php';
 
 // // Register our custom post type.
-require 'includes/post-types/board-member.php';
+require_once 'includes/post-types/board-member.php';
 
 
 class UWBoardMemberUtils

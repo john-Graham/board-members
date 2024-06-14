@@ -7,6 +7,7 @@ class CPTRegistration
     public function __construct()
     {
         add_action('init', [$this, 'registerBoardMemberCPT']);
+        add_filter('allowed_block_types_all', [$this, 'restrictBlocksToParagraph'], 10, 2);
     }
 
     public function registerBoardMemberCPT()
@@ -49,10 +50,22 @@ class CPTRegistration
             'publicly_queryable' => false,
             'show_in_rest' => true,
             'menu_icon' => 'dashicons-networking',
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports' => array('title', 'editor'),
             'taxonomies' => array('board'),
             'delete_with_user' => false,
         ));
+    }
+
+    public function restrictBlocksToParagraph($allowed_blocks, $editor_context)
+    {
+        // Check if we are in the context of the specific post type
+        if ($editor_context->post && $editor_context->post->post_type === 'board-member') {
+            // Only allow the core/paragraph block
+            return array('core/paragraph');
+        }
+
+        // Return all blocks for other contexts
+        return $allowed_blocks;
     }
 }
 
