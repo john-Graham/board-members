@@ -20,7 +20,7 @@ class ACFConfiguration {
         \add_filter('acf/settings/save_json/key=group_65381c1c5a213', [$this, 'uw_board_members_json_save_path_for_field_groups']);
         \add_filter('acf/settings/save_json/key=post_type_653695de117d4', [$this, 'uw_board_members_json_save_path_for_post_types']);
         \add_filter('acf/settings/save_json/key=taxonomy_6536b72d725e0', [$this, 'uw_board_members_json_save_path_for_taxonomies']);
-        \add_filter('acf/json/save_file_name', [$this, 'uw_board_members_json_filename'], 10, 3);
+        // \add_filter('acf/json/save_file_name', [$this, 'uw_board_members_json_filename'], 10, 3);
     }
 
     public function uw_board_members_json_load_paths($paths) {
